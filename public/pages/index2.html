@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="second-page">
+        <ol id="notes-list">
+
+        </ol>
+    </div>
+    <button id="clear-note" style="cursor: pointer;">
+        <h3>Clear notes</h3>
+    </button>
+    <a href="/">
+        <h3>Back</h3>
+    </a>
+</body>
+
+<script src="index.js"></script>
+<script>
+    const notesContainer = document.querySelector('.second-page')
+    const clearBtn = document.getElementById('clear-note')
+    const displayContent = () => {
+        const notes = getNotesFromDB()
+        if (!notes) {
+            clearBtn.style.display = 'none'
+            notesContainer.innerHTML = `
+            <div style="display: flex; justify-content: center;
+    text-align: center;">
+                <div>
+                    <h3>Notes is empty</h3>
+                    <p>Start adding note, enjoy the app</p>
+                </div>
+            </div>
+        `
+        } else {
+            notes.reverse().map(({
+                note
+            }) => {
+                const li = document.createElement('li')
+                li.innerHTML = note
+                document.getElementById('notes-list').appendChild(li)
+            })
+        }
+    }
+    const clearAllNotes = (e) => {
+        document.getElementById('notes-list').innerHTML = ''
+        localStorage.clear('noteTaker')
+        displayContent()
+    }
+
+    clearBtn.addEventListener('click', clearAllNotes)
+    displayContent()
+</script>
