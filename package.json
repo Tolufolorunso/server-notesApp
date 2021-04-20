@@ -1,0 +1,22 @@
+{
+    "name": "server-notesapp",
+    "version": "1.0.0",
+    "description": "**Instruction**",
+    "main": "app.js",
+    "scripts": {
+        "start": "nodemon app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Tolufolorunso/server-notesApp.git"
+    },
+    "author": "Tolulope Folorunso",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Tolufolorunso/server-notesApp/issues"
+    },
+    "homepage": "https://github.com/Tolufolorunso/server-notesApp#readme",
+    "devDependencies": {
+        "nodemon": "^2.0.7"
+    }
+}
