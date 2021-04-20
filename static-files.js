@@ -1,27 +1,43 @@
 const fs = require('fs')
+const path = require('path')
 
-module.exports.serveStaticFile = (res, path, contentType, responseCode) => {
-  // console.log(__dirname)
-  if (!responseCode) responseCode = 200
-  fs.readFile(__dirname + path, function (error, data) {
+module.exports.serveStaticFile = (url, res) => {
+  let pathFile = path.join(
+    __dirname,
+    'public',
+    url === '/' ? 'index.html' : url
+  )
+
+  let contentType = getContentType(pathFile) || 'text/html'
+
+  fs.readFile(pathFile, function (error, data) {
     if (error) {
       if (error.code === 'ENOENT') {
-        res.writeHead(400, {
-          'Content-Type': 'text/html',
+        fs.readFile(__dirname + '/public/404.html', 'utf8', (_, data) => {
+          res.writeHead(404, {
+            'Content-Type': 'text/html',
+          })
+          res.end(data)
         })
-        res.end(`<h2>Something went wrong</h2>
-					<a href='/'>Go to homepage</a>
-				`)
+      } else {
+        fs.readFile(__dirname + '/public/500.html', 'utf8', (_, data) => {
+          res.writeHead(500, {
+            'Content-Type': 'text/html',
+          })
+          res.end(data)
+        })
       }
-      res.writeHead(500, {
-        'Content-Type': 'text/plain',
-      })
-      res.end('')
     } else {
-      res.writeHead(responseCode, {
+      res.writeHead(200, {
         'Content-Type': contentType,
       })
       res.end(data)
     }
   })
+}
+
+const getContentType = (pathFile) => {
+  let extName = path.extname(pathFile)
+  if (extName === '.js') return 'text/javascript'
+  if (extName === '.css') return 'text/css'
 }
