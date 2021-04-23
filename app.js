@@ -1,7 +1,7 @@
 const http = require('http')
 const { serveStaticFile } = require('./static-files.js')
 
-const PORT = 1000
+const PORT = 5000
 
 const server = http.createServer((req, res) => {
   let url = req.url
